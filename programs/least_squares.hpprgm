@@ -1,10 +1,45 @@
 EXPORT lsqrs(xval, yval)
 BEGIN
-    LOCAL x, x2, x3, x4, y, yx, yx2, yx3;
-    LOCAL i=1;
-    WHILE (i<size(xval)) DO
-        PRINT("hello ");
-        PRINT(i);
-        i = i+1;
-    END;
+    PRINT("\nVALUES AND SOLUTIONS:");
+    LOCAL n = size(mat2list(xval));
+    PRINT("n =" + n);
+    LOCAL x = ΣLIST(mat2list(xval));
+    PRINT("Σx = " + x);
+    LOCAL x2 = ΣLIST(mat2list(xval .^ 2));
+    PRINT("Σx2 = " + x2);
+    LOCAL x3 = ΣLIST(mat2list(xval .^ 3));
+    PRINT("Σx3 = " + x3);
+    LOCAL x4 = ΣLIST(mat2list(xval .^ 4));
+    PRINT("Σx4 = " + x4);
+    LOCAL x5 = ΣLIST(mat2list(xval .^ 5));
+    PRINT("Σx5 = " + x5);
+    LOCAL x6 = ΣLIST(mat2list(xval .^ 6));
+    PRINT("Σx6 = " + x6);
+    LOCAL y = ΣLIST(mat2list(yval));
+    PRINT("Σy = " + y);
+    LOCAL xy = ΣLIST(mat2list(xval .* yval));
+    PRINT("Σxy = " + xy);
+    LOCAL x2y = ΣLIST(mat2list((xval .^ 2) .* yval));
+    PRINT("Σx2y = " + x2y);
+    LOCAL x3y = ΣLIST(mat2list((xval .^ 3) .* yval));
+    PRINT("Σx3y = " + x3y);
+
+    LOCAL sol;
+    PRINT("\nLinear model: ");
+    PRINT("1:" + n + "*a0 + " + x + "*a1 = " + y);
+    PRINT("2:" + x + "*a0 + " + x2 + "*a1 = " + xy + "\n\n");
+    CAS("sol := linsolve([n*a + x*b = y, x*a + x2*b = xy],[a, b])");
+    PRINT("a0 = " + sol(1));
+    PRINT("a1 = "  + sol(2));
+    PRINT("Best fit: y =" + sol(1) + " + " + sol(2) + "*x" );
+
+    PRINT("\nCuadratic model: ");
+    PRINT("1:" + n + "*a0 + " + x + "*a1 + " + x2 + " *a2 = " + y);
+    PRINT("2:" + x + "*a0 + " + x2 + "*a1 + " + x3 + "*a2 = " + xy);
+    PRINT("3:" + x2 + "*a0 + " + x3 + "*a1 + " + x4 + "*a2 = " + x2y + "\n\n");
+    CAS("sol := linsolve([n*a + x*b + x2*c = y, x*a + x2*b + x3*c = xy, x2*a + x3*b + x4*c = x2y],[a, b, c])");
+    PRINT("a0 = " + sol(1));
+    PRINT("a1 = " + sol(2));
+    PRINT("a2 = " + sol(3));
+    PRINT("Best fit: y =" + sol(1) + " + " + sol(2) + "*x + " + sol(3) + "*x^2");
 END;
