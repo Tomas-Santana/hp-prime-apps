@@ -1,0 +1,10 @@
+EXPORT lsqrs(xval, yval)
+BEGIN
+    LOCAL x, x2, x3, x4, y, yx, yx2, yx3;
+    LOCAL i=1;
+    WHILE (i<size(xval)) DO
+        PRINT("hello ");
+        PRINT(i);
+        i = i+1;
+    END;
+END;
